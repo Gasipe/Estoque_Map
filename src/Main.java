@@ -20,6 +20,7 @@ public class Main {
             option = sc.nextInt();
 
             switch (option) {
+                case 1 : registerProduct(sc, productMap);
                 case 2 : System.out.println("listar todos produtos");
                 default: System.out.println("Invalid option! Please try again");
             }
@@ -51,10 +52,9 @@ public class Main {
         System.out.println("3. Exit");
     }
 
-    public static void registerProduct(Map<Integer, Product> productMap) {
+    public static void registerProduct(Scanner sc, Map<Integer, Product> productMap) {
         //---------Criação do produto----------
         System.out.print("Enter the code of the product you wish to register: ");
-        Scanner sc = new Scanner(System.in);
         int code = sc.nextInt();
             sc.nextLine();
 
