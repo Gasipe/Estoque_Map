@@ -21,8 +21,11 @@ public class Main {
 
             switch (option) {
                 case 1 : registerProduct(sc, productMap);
+                break;
                 case 2 : returnResult(productMap);
+                break;
                 case 3 : System.out.println("Exiting program...");
+                break;
                 default: System.out.println("Invalid option! Please try again");
             }
         }
