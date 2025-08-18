@@ -42,7 +42,7 @@ public class Main {
             System.out.println("-------PRODUCT-------");
             System.out.printf("Code: %d\n", entry.getKey());
             System.out.printf("Product: %s\n", entry.getValue().getName());
-            System.out.printf("Price: %.2f\n", + entry.getValue().getPrice());
+            System.out.printf("Price: %.2f\n", entry.getValue().getPrice());
             System.out.printf("Quantitie: %d\n", entry.getValue().getQuantitie());
             System.out.println("----------------------");
 
