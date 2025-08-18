@@ -21,7 +21,8 @@ public class Main {
 
             switch (option) {
                 case 1 : registerProduct(sc, productMap);
-                case 2 : System.out.println("listar todos produtos");
+                case 2 : returnResult(productMap);
+                case 3 : System.out.println("Exiting program...");
                 default: System.out.println("Invalid option! Please try again");
             }
         }
@@ -33,19 +34,24 @@ public class Main {
         int times = sc.nextInt();
 
 
+
+    }
+    public static void returnResult(Map<Integer, Product> productMap) {
         //--------------Para exibir o resultado ---------------
-        for(Map.Entry<Integer, Product> entry : productMap.entrySet()) {
+        for (Map.Entry<Integer, Product> entry : productMap.entrySet()) {
             System.out.println("-------PRODUCT-------");
-            System.out.printf("Code: ", entry.getKey());
-            System.out.printf("Product: ", entry.getValue().getName());
-            System.out.printf("Price: %.2f" + entry.getValue().getPrice());
-            System.out.printf("Quantitie: ", entry.getValue().getQuantitie());
+            System.out.printf("Code: %d\n", entry.getKey());
+            System.out.printf("Product: %s\n", entry.getValue().getName());
+            System.out.printf("Price: %.2f\n", + entry.getValue().getPrice());
+            System.out.printf("Quantitie: %d\n", entry.getValue().getQuantitie());
             System.out.println("----------------------");
 
         }
-
     }
+
+
     public static void displayMenu() {
+        //-------Menu-------
         System.out.println("\n ==== Product Management System ====");
         System.out.println("1. Register new Products: ");
         System.out.println("2. List all products: ");
@@ -54,9 +60,14 @@ public class Main {
 
     public static void registerProduct(Scanner sc, Map<Integer, Product> productMap) {
         //---------Criação do produto----------
-        System.out.print("Enter the code of the product you wish to register: ");
-        int code = sc.nextInt();
+            System.out.print("Enter the code of the product you wish to register: ");
+            int code = sc.nextInt();
             sc.nextLine();
+
+            if(productMap.containsKey(code)) {
+                System.out.println("Error: Product code " + code + "already exist!");
+                return;
+            }
 
             System.out.print("What is the name of the product?: ");
             String name = sc.nextLine();
@@ -70,6 +81,7 @@ public class Main {
 
             Product product = new Product(name, price, quantitie);
             productMap.put(code, product);
+            System.out.println("Product registered sucessfully! code: " + code);
 
     }
 
