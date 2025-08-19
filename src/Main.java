@@ -1,5 +1,6 @@
 import entities.Product;
 
+import javax.swing.*;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -155,4 +156,33 @@ public class Main {
             }
         }
 
+
+    public static void updateProduct(Scanner sc, Map<Integer, Product> productMap) {
+        System.out.println("Enter product code to update: ");
+        int code = sc.nextInt();
+        sc.nextLine();
+        do {
+            if (productMap.containsKey(code)) {
+                Product product = productMap.get(code);
+                System.out.println("Cuurent product: " + product.getName());
+
+                System.out.println("New name (press Enter to keep current): ");
+                String newName = sc.nextLine();
+
+                if (!newName.isEmpty()) product.setName(newName);
+
+                System.out.println("New price: ");
+                double newPrice = sc.nextDouble();
+                if (newPrice > 0) product.setPrice(newPrice);
+
+                System.out.println("Quantity: ");
+                int newQuantity = sc.nextInt();
+                if (newQuantity > 0) product.setQuantitie(newQuantity);
+
+                System.out.println("Product update sucessfully!");
+            } else {
+                System.out.println("Invalid code");
+            }
+        } while (!productMap.containsKey(code));
+    }
 }
