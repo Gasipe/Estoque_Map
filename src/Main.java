@@ -31,12 +31,16 @@ public class Main {
                     searchForCodeOrName(productMap, sc);
                     break;
                 case 4:
+                    updateProduct(sc, productMap);
+                case 5:
+                    removeProduct(sc, productMap);
+                case 6:
                     System.out.println("Exiting program...");
                 default:
                     System.out.println("Invalid option! Please try again");
             }
         }
-        while (option != 4);
+        while (option != 6);
 
         sc.close();
 
@@ -64,8 +68,10 @@ public class Main {
         System.out.println("\n ==== Product Management System ====");
         System.out.println("1. Register new Products: ");
         System.out.println("2. List all products: ");
-        System.out.println("3. Search product");
-        System.out.println("4. Exit");
+        System.out.println("3. Search product: ");
+        System.out.println("4. update product: ");
+        System.out.println("5. Remove product: ");
+        System.out.println("6. Exit");
     }
 
     public static void registerProduct(Scanner sc, Map<Integer, Product> productMap) {
@@ -96,66 +102,65 @@ public class Main {
     }
 
     public static void searchForCodeOrName(Map<Integer, Product> productMap, Scanner sc) {
-            if (productMap.isEmpty()) {
-                System.out.println("No products registered");
-                return;
-            }
-
-            sc.nextLine();
-            String op;
-
-            do {
-                System.out.print("Search by [C]ode or [N]ame? (C/N): ");
-                op = sc.nextLine().trim().toUpperCase();
-
-                if (!op.equals("C") && !op.equals("N")) {
-                    System.out.println("Error! Please enter C or N");
-                }
-            } while (!op.equals("C") && !op.equals("N"));
-
-            if (op.equals("C")) {
-                System.out.print("Enter the product code: ");
-                while (!sc.hasNextInt()) {
-                    System.out.println("Invalid input! Please enter a number.");
-                    sc.next();
-                    System.out.print("Enter the product code: ");
-                }
-                int searchCode = sc.nextInt();
-                sc.nextLine();
-
-                if (productMap.containsKey(searchCode)) {
-                    Product product = productMap.get(searchCode);
-                    System.out.printf("\nProduct: %s\nCode: %d\nPrice: %.2f\nQuantity: %d\n",
-                            product.getName(),
-                            searchCode,
-                            product.getPrice(),
-                            product.getQuantitie());
-                } else {
-                    System.out.println("Product not found!");
-                }
-            } else {
-                System.out.print("Enter the product name: ");
-                String searchName = sc.nextLine().toLowerCase();
-                boolean found = false;
-
-                for (Map.Entry<Integer, Product> entry : productMap.entrySet()) {
-                    Product product = entry.getValue();
-                    if (product.getName().toLowerCase().contains(searchName)) {
-                        System.out.printf("\nProduct: %s\nCode: %d\nPrice: %.2f\nQuantity: %d\n",
-                                product.getName(),
-                                entry.getKey(),
-                                product.getPrice(),
-                                product.getQuantitie());
-                        found = true;
-                    }
-                }
-
-                if (!found) {
-                    System.out.println("No products found with name: " + searchName);
-                }
-            }
+        if (productMap.isEmpty()) {
+            System.out.println("No products registered");
+            return;
         }
 
+        sc.nextLine();
+        String op;
+
+        do {
+            System.out.print("Search by [C]ode or [N]ame? (C/N): ");
+            op = sc.nextLine().trim().toUpperCase();
+
+            if (!op.equals("C") && !op.equals("N")) {
+                System.out.println("Error! Please enter C or N");
+            }
+        } while (!op.equals("C") && !op.equals("N"));
+
+        if (op.equals("C")) {
+            System.out.print("Enter the product code: ");
+            while (!sc.hasNextInt()) {
+                System.out.println("Invalid input! Please enter a number.");
+                sc.next();
+                System.out.print("Enter the product code: ");
+            }
+            int searchCode = sc.nextInt();
+            sc.nextLine();
+
+            if (productMap.containsKey(searchCode)) {
+                Product product = productMap.get(searchCode);
+                System.out.printf("\nProduct: %s\nCode: %d\nPrice: %.2f\nQuantity: %d\n",
+                        product.getName(),
+                        searchCode,
+                        product.getPrice(),
+                        product.getQuantitie());
+            } else {
+                System.out.println("Product not found!");
+            }
+        } else {
+            System.out.print("Enter the product name: ");
+            String searchName = sc.nextLine().toLowerCase();
+            boolean found = false;
+
+            for (Map.Entry<Integer, Product> entry : productMap.entrySet()) {
+                Product product = entry.getValue();
+                if (product.getName().toLowerCase().contains(searchName)) {
+                    System.out.printf("\nProduct: %s\nCode: %d\nPrice: %.2f\nQuantity: %d\n",
+                            product.getName(),
+                            entry.getKey(),
+                            product.getPrice(),
+                            product.getQuantitie());
+                    found = true;
+                }
+            }
+
+            if (!found) {
+                System.out.println("No products found with name: " + searchName);
+            }
+        }
+    }
 
     public static void updateProduct(Scanner sc, Map<Integer, Product> productMap) {
         System.out.println("Enter product code to update: ");
@@ -184,5 +189,29 @@ public class Main {
                 System.out.println("Invalid code");
             }
         } while (!productMap.containsKey(code));
+    }
+
+    public static void removeProduct(Scanner sc, Map<Integer, Product> productMap) {
+        System.out.println("Enter the code of the product you want to delete: ");
+        int code = sc.nextInt();
+        sc.nextLine();
+
+        int attempts = 0;
+        int maxAttempts = 3;
+
+        while (attempts < maxAttempts) {
+            if (productMap.containsKey(code)) {
+                productMap.remove(code);
+                System.out.println("Product removed");
+                return;
+            } else {
+                attempts++;
+                System.out.println("Invalid code");
+                if (attempts < maxAttempts) {
+                    System.out.println("Try again");
+                }
+            }
+        }
+        System.out.println("Maximum attempts reached. Operation cancelled");
     }
 }
