@@ -32,10 +32,13 @@ public class Main {
                     break;
                 case 4:
                     updateProduct(sc, productMap);
+                    break;
                 case 5:
                     removeProduct(sc, productMap);
+                    break;
                 case 6:
                     System.out.println("Exiting program...");
+                    break;
                 default:
                     System.out.println("Invalid option! Please try again");
             }
@@ -171,16 +174,16 @@ public class Main {
                 Product product = productMap.get(code);
                 System.out.println("Cuurent product: " + product.getName());
 
-                System.out.println("New name (press Enter to keep current): ");
+                System.out.print("New name (press Enter to keep current): ");
                 String newName = sc.nextLine();
 
                 if (!newName.isEmpty()) product.setName(newName);
 
-                System.out.println("New price: ");
+                System.out.print("New price: ");
                 double newPrice = sc.nextDouble();
                 if (newPrice > 0) product.setPrice(newPrice);
 
-                System.out.println("Quantity: ");
+                System.out.print("Quantity: ");
                 int newQuantity = sc.nextInt();
                 if (newQuantity > 0) product.setQuantitie(newQuantity);
 
@@ -195,6 +198,7 @@ public class Main {
         System.out.println("Enter the code of the product you want to delete: ");
         int code = sc.nextInt();
         sc.nextLine();
+        Product product = productMap.get(code);
 
         int attempts = 0;
         int maxAttempts = 3;
@@ -202,7 +206,7 @@ public class Main {
         while (attempts < maxAttempts) {
             if (productMap.containsKey(code)) {
                 productMap.remove(code);
-                System.out.println("Product removed");
+                System.out.printf("Product (%s) removed", product.getName().toUpperCase());
                 return;
             } else {
                 attempts++;
